@@ -1,0 +1,126 @@
+<!doctype html>
+<html class="no-js" lang="">
+    <head>
+        <meta charset="utf-8">
+        <title></title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta http-equiv="cleartype" content="on">
+        <link rel="stylesheet" href="../static/css/normalize.css">
+        <link rel="stylesheet" href="../static/css/animate.min.css">
+        <link rel="stylesheet" href="../static/css/main.css">
+        <script src="../static/js/vendor/modernizr-2.8.3.min.js"></script>
+        <style>
+            html, body, .page, .intro-item {
+                width: 100%;
+                height: 100%;
+            }
+            .page {
+                display: none;
+                overflow: hidden;
+               
+            }
+            .hide {
+                display: none;
+            }
+            #animateTest img {
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 100%;
+                display: none;
+            }
+            #animateTest img.show,
+            #animateTest img:first-child {
+                display: block;
+            }
+            .intro-item {
+                position: absolute;
+                top: 0;
+                left: 0;
+            }
+            .intro-bg {
+                width: 100%;
+                height: 100%;
+                /*background: url(../static/img/smailday/sky_0.jpg) center top no-repeat;*/
+                background-size: 100% auto;
+                z-index: 10;
+                -webkit-animation-duration: .3s;
+            }
+            .intro-bg-main {
+                z-index: 11;
+            }
+            .intro-building {
+                width: 100%;
+                height: 100%;
+                /*background: url(../static/img/smailday/building_0.png) center top no-repeat;*/
+                background-size: 100% auto;
+                z-index: 20;
+                -webkit-animation-delay: .2s;
+            }
+            .intro-earth {
+                width: 100%;
+                height: 100%;
+                /*background: url(../static/img/smailday/earth_0.png) center top no-repeat;*/
+                background-size: 100% auto;
+                z-index: 30;
+                -webkit-animation-delay: .5s;
+            }
+            .intro-building-main {
+                z-index: 40;
+                -webkit-animation-duration: .8s;
+            }
+        </style>
+    </head>
+    <body>
+        <div id="introPage" class="page" style="display:block;">
+            <div class="intro-item intro-bg animated">
+                <img src="../static/img/smailday/sky_0.jpg" height="auto" width="100%" alt="">
+            </div>
+            <div class="intro-item intro-bg-main animated hide">
+                <img src="../static/img/smailday/sky_1.jpg" height="auto" width="100%" alt="">
+            </div>
+            <div class="intro-item intro-earth animated">
+                <img src="../static/img/smailday/earth_0.png" height="auto" width="100%" alt="">
+            </div>
+            <div class="intro-item intro-building animated">
+                <img src="../static/img/smailday/building_0.png" height="auto" width="100%" alt="">
+            </div>
+            <div class="intro-item intro-building-main animated hide">
+                <img src="../static/img/smailday/building_main.png" height="auto" width="100%" alt="">
+            </div>
+        </div>
+        <div id="pageOne" class="page">
+            <label for="">a</label>
+            <input type="text">
+            <label for="">b</label>
+            <input type="text">
+            <label for="">c</label>
+            <input type="text">
+            <p>
+                <input id="imgPreBtn" type="file">
+                <img id="imgPre" src="" width="200">
+            </p>
+            <p>
+                <button id="rateBtn">Rate</button>
+            </p>
+            <div id="animateTest"></div>
+        </div>
+        <div id="pageTwo" class="page">
+            <p>
+                <button id="getResultBtn">Next</button>
+            </p>
+        </div>
+        <div id="pageThree" class="page">
+            <button id="replay">Replay</button>
+        </div>
+        <div class="page"></div>
+        <div class="page"></div>
+        <!-- Add your site or application content here -->
+
+        <script src="../static/js/vendor/jquery-2.1.3.min.js"></script>
+        <script src="../static/js/vendor/jquery.base64.js"></script>
+        <script src="../static/js/helper.js"></script>
+        <script src="../static/js/main.js"></script>
+    </body>
+</html>

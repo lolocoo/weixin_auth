@@ -1,0 +1,21 @@
+import web
+import os
+import re
+
+urls = (
+    "/", "Index"
+)
+
+t_globals = {}
+
+app_root = os.path.dirname(__file__)
+templates_root = os.path.join(app_root, 'templates')
+render = web.template.render(templates_root, t_globals)
+
+class Index:
+    def GET(self):
+        return render.index()
+
+if __name__ == "__main__": 
+    app = web.application(urls, globals())
+    app.run()

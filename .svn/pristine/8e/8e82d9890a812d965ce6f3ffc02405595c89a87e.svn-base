@@ -1,0 +1,28 @@
+-*- coding:utf-8 -*-
+# import web
+# import os
+# import re
+
+# urls = (
+#     "/", "Index"
+# )
+
+# t_globals = {}
+
+# app_root = os.path.dirname(__file__)
+# templates_root = os.path.join(app_root, 'templates')
+# render = web.template.render(templates_root, t_globals)
+
+# class Index:
+#     def GET(self):
+#         return render.index()
+
+
+# app = web.application(urls, globals()).wsgifunc()
+
+
+# def app(environ, start_response):
+#     return 'hello world'
+
+# from bae.core.wsgi import WSGIApplication
+# application = WSGIApplication(app)

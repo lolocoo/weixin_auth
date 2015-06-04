@@ -1,0 +1,106 @@
+#coding:utf-8
+import os
+import web
+import urllib2, json
+import time, random, string, hashlib
+
+import sample as face
+
+urls = (
+    '/get_weixin_signatrue', 'GetWeixinSignature',
+    '/get_face_rate', 'GetFaceRate',
+    '/hello', 'Hello',
+    '/jsontest', 'JsonTest',
+    '/test', 'Test'
+)
+
+weixin_config = {
+    'AppID' : 'wxfd34115fe57ef370',
+    'AppSecret' : 'c9f96381e1a1907c2e99eea9797f92f6'
+}
+
+t_globals = dict(
+    str = str,
+)
+
+app_root = os.path.dirname(__file__)
+templates_root = os.path.join(app_root, 'templates')
+render = web.template.render(templates_root, t_globals)
+
+expireTime = 7200 - 100
+cache_weixin_token = {}
+token = cache_weixin_token.get('token')
+
+def getWeixinToken():
+    url = 'https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid=%s&secret=%s' % (weixin_config['AppID'], weixin_config['AppSecret'])
+    result = urllib2.urlopen(url).read()
+    result = json.loads(result)
+    cache_weixin_token['token'] = result['access_token'].encode('utf-8')
+    cache_weixin_token['expireTime'] = int(time.time())+expireTime
+    token = cache_weixin_token.get('token')
+    getWeixinTicket()
+
+def getWeixinTicket():
+    ticket_url = 'https://api.weixin.qq.com/cgi-bin/ticket/getticket?access_token=%s&type=jsapi' % cache_weixin_token.get('token')
+    ticket =  json.load(urllib2.urlopen(ticket_url))
+    cache_weixin_token['ticket'] = ticket['ticket'].encode('utf-8')
+
+
+# if token == None:
+#     getWeixinToken()
+# elif cache_weixin_token.get('expireTime') - int(time.time()) < 1000:
+#     getWeixinToken()
+
+
+class Sign:
+    def __init__(self, jsapi_ticket, url):
+        self.ret = {
+            'nonceStr': self.__create_nonce_str(),
+            'jsapi_ticket': jsapi_ticket,
+            'timestamp': self.__create_timestamp(),
+            'url': url
+        }
+
+    def __create_nonce_str(self):
+        return ''.join(random.choice(string.ascii_letters + string.digits) for _ in range(15))
+
+    def __create_timestamp(self):
+        return int(time.time())
+
+    def sign(self):
+        string = '&'.join(['%s=%s' % (key.lower(), self.ret[key]) for key in sorted(self.ret)])
+        print string
+        self.ret['signature'] = hashlib.sha1(string).hexdigest()
+        return self.ret
+
+class GetWeixinSignature:
+    def GET(self):
+        input = web.input()
+        print input.url
+        sign = Sign(cache_weixin_token['ticket'], input.url)
+        web.header('content-type','text/json')
+        return json.dumps(sign.sign())
+
+class GetFaceRate:
+    def GET(self):
+        input = web.input()
+        web.header('content-type','text/json')
+        return json.dumps(face.smileface(input.img))
+
+
+class Test:
+    def GET(self):
+        return render.index()
+
+class Hello:
+    def GET(self):
+        return render.hello()
+
+class JsonTest:
+    def GET(self):
+        web.header('content-type','text/json')
+        return json.dumps({'key1':'value1','key2':'value2'})
+
+if __name__ == "__main__": 
+    app = web.application(urls, globals())
+    app.run()
